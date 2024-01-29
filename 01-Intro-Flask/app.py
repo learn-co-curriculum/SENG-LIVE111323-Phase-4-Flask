@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, make_response 
+from flask import Flask, jsonify, make_response, request 
 
 from flask_migrate import Migrate 
 from models import db, Coffee 
@@ -33,8 +33,37 @@ def get_the_most_expensive_coffee():
 
 @app.route('/coffees/<string:name>')
 def coffee(name):
-    return make_response(jsonify(name))
+    quer = Coffee.query.filter_by(name = name).first()
 
+    cup = {
+        "name": quer.name,
+        "description": quer.description,
+        "price": quer.price
+    }
+    return make_response(jsonify(cup))
+
+
+@app.route("/context")
+def context():
+    print("==== in context=====")
+    # import ipdb;
+    # ipdb.set_trace()
+    return f'''
+        <h1>
+            path : {request.path}
+        </h1>
+
+        <h1>
+            host : {request.host}
+        </h1>
+
+    '''
+
+
+@app.before_request
+def runs_before():
+    current_user = {"user_id": 48, "username": "latte bear"}
+    print("-------before any request---------", current_user)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
