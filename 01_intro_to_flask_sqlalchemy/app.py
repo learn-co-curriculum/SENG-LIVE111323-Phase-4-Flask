@@ -1,7 +1,7 @@
 # set up flask app configuration, create routes, return responses, take information from our requests
 
 # set up imports 
-from flask import Flask # importing an instance of flask class 
+from flask import Flask, make_response, jsonify # importing an instance of flask class 
 #this will be our WSGI (Web Server Gateway Interface )
 
 from flask_migrate import Migrate #for migration of table 
@@ -25,19 +25,51 @@ db.init_app(app)
 
 
 # navigate to seed
+
+
+
 # create dynamic routes 
+@app.route("/") # route decorator 
+def index():
+    return '<h1> Hello World!  </h1>'
 
 
+@app.route('/the-most-expensive-coffee')
+def get_the_most_expensive_coffee():
+    #query to find the most expensive coffee
+    # enter into flask shell to get the object 
+    coffee = Coffee.query.order_by(Coffee.price.desc()).first()
+
+    cup = {
+        "name": coffee.name,
+        "description": coffee.description,
+        "price": coffee.price
+    }
+
+    # jsonify and return the response  
+    return make_response(jsonify(cup), 200) #status code 
+
+#create a dynamic route 
+@app.route('/coffees/<string:name>')
+def coffee(name):
+    quer = Coffee.query.filter_by(name=name).first()
+
+    coffee = {
+        "name": quer.name,
+        "price": quer.price,
+        "description": quer.description
+    }
+    #return the result as JSON
+    return make_response(jsonify(coffee))
 
 # in terminal 
 # $flask db init
 # $flask db migrate 
 # $flask db upgrade 
 
-# we should see something like below when we run the command above
-# INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
-# INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
-# INFO  [alembic.autogenerate.compare] Detected added table 'coffees'
-#   Generating /Users/greem/Dev/22-Flatiron-teach/greem-practice/lecture-041023-11132
-#   3/111323-Phase-4-Flask/01_intro_to_flask_sqlalchemy/migrations/versions/cd621237e
-#   4a0_.py ...  done
+
+# $export FLASK_APP=app.py
+# $export FLASK_RUN_PORT=5555
+
+if __name__ == '__main__': # if the __name__(current module) is main 
+    app.run(port=5555, debug=True) # then run the port at 5555
