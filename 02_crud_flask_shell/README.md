@@ -55,6 +55,21 @@ cappuccino 4.5
 frappuccino 6.0
 
 #### UPDATE
-
+>>> coffee1 = db.session.get(Coffee,1)
+>>> coffee1.price = 5.00
+>>> coffee1.price
+5.0
+>>> db.session.commit()
 
 ### DELETE
+* delete one coffee
+>>> coffee1 = db.session.get(Coffee,1)
+>>> db.session.delete(coffee1)
+>>> db.session.commit()
+
+* delete all coffee
+>>> Coffee.query.all()
+[<Coffee 2>, <Coffee 3>, <Coffee 4>]
+>>> Coffee.query.delete()
+3
+>>> db.session.commit()
