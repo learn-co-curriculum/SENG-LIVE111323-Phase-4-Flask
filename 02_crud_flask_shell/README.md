@@ -11,5 +11,3 @@
 * Initialize a database with sample data
 * Use the Faker package to generate random data
 
-### - - - - - - Migration- - - - - - - -
-* Upgrade a schema from an old version to a newer version.
