@@ -8,7 +8,7 @@
 
 ## 002 Flask SQLAlchemy - CRUD in Flask Shell
 
-## 003 Flask-SQLAlchemy-seeding fake data-add new model
+## 003 Migration / Serialization
 
 ## 004 Flask-SQLAlchemy-Relationship
 
