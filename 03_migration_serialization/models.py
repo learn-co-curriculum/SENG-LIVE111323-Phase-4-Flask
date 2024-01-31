@@ -1,13 +1,17 @@
-# contains model information for our db 
 
-#1. import SQLAlchemy 
+from sqlalchemy_serializer import SerializerMixin
+#we will have access to `to_dict()` sql obj => python dictionary
+
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import MetaData
 
-#2save SQL Alchemy flask in db var 
-db = SQLAlchemy()
+metadata = MetaData()
 
-#3create a coffee model 
-class Coffee(db.Model): # take in sqlalchemy db as an arg
+
+db = SQLAlchemy(metadata=metadata)
+
+
+class Coffee(db.Model, SerializerMixin): 
     __tablename__ = "coffees" #table name is coffees
 
     #set up columns 
@@ -23,3 +27,17 @@ class Coffee(db.Model): # take in sqlalchemy db as an arg
     price = db.Column(db.Float)
     image = db.Column(db.String)
     description = db.Column(db.String)
+
+    def __repr__(self):
+        return f'<Coffee {self.id}, {self.name}, {self.price} >'
+
+
+class Customer(db.Model, SerializerMixin):
+    __tablename__="customers"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+    def __repr__(self):
+        return f'<Customer {self.id}, {self.name}>'
+

@@ -62,6 +62,26 @@ def coffee(name):
     #return the result as JSON
     return make_response(jsonify(coffee))
 
+@app.route('/coffees/<int:id>')
+def coffee_by_id(id):
+    cup = Coffee.query.filter(Coffee.id==id).first()
+    if cup:
+        # body = {
+        #     'id': cup.id,
+        #     'name': cup.name,
+        #     'price': cup.price
+        # }
+        body = cup.to_dict()
+
+        status = 200
+    else:
+        body={
+            'message': f'Coffee id {id} not found.'
+        }
+        status = 404
+
+    return make_response(body, status)
+
 # in terminal 
 # $flask db init
 # $flask db migrate 

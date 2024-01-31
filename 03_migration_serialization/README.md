@@ -8,4 +8,8 @@
 
 
 ### - - - - - - Serialization - - - - - - - -
-* Use SQLAlchemy-Serializer to convert SQLAlchemy objects into dictionaries.
+* Use SQLAlchemy-Serializer to convert SQLAlchemy objects into dictionaries. to_dict()
+
+convert the sql obj --> python dictionary 
+columns ----> dictionary keys 
+actual column values -----> dictionary values 
