@@ -36,7 +36,10 @@ class Customer(db.Model, SerializerMixin):
     __tablename__="customers"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String, nullable=False)
+    address = db.Column(db.String)
+    phone = db.Column(db.String)
+    emoji = db.Column(db.String)
 
     def __repr__(self):
         return f'<Customer {self.id}, {self.name}>'
