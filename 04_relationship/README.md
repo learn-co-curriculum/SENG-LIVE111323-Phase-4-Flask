@@ -6,9 +6,9 @@
 
 ### back_populates vs. backref 
 
-* back_populates : property to establish a `bi-directional` relationship between models. The relationship are propagated to teh other side. 
+* back_populates : is a property to establish a `bi-directional` relationship between models. The relationship are propagated to the other side. 
 
-* backref: automatically create a reverse relationship on the other side. ( less explicit than the back_populates, more flexible, simpler)
+* backref: automatically creates a reverse relationship on the other side. ( less explicit than the back_populates, more flexible, simpler)
 
 ```
 class Parent():

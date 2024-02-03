@@ -4,6 +4,8 @@ from sqlalchemy_serializer import SerializerMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 
+from sqlalchemy.ext.associationproxy import association_proxy
+
 metadata = MetaData(naming_convention = {
         "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     })
@@ -31,6 +33,9 @@ class Coffee(db.Model, SerializerMixin):
     #                          back_populates='coffee', cascade='all, delete-orphan')
     orders = db.relationship('Order', 
                              backref='coffee', cascade='all, delete-orphan')
+    
+    #association proxy to get customers for this coffee through orders
+    # customers = association_proxy('orders', 'customer', creator=lambda customer_obj: Order(customer=customer_obj))
 
 
     def __repr__(self):
@@ -51,6 +56,9 @@ class Customer(db.Model, SerializerMixin):
     #add the relationship mapping the customer to related order
     # orders = db.relationship('Order', back_populates='customer', cascade='all, delete-orphan')  
     orders = db.relationship('Order', backref='customer', cascade='all, delete-orphan')    
+
+    #association proxy to get customers for this coffee through orders
+    coffee = association_proxy('orders', 'coffee', creator=lambda coffee_obj: Order(coffee=coffee_obj))
 
     def __repr__(self):
         return f'<Customer {self.id}, {self.name}>'
