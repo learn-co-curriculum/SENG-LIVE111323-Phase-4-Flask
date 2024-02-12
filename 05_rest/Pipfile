@@ -8,6 +8,11 @@ ipdb = "*"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+faker = "*"
+sqlalchemy="*"
+sqlalchemy-serializer = "*"
+flask_restful = "*"
+
 
 [dev-packages]
 

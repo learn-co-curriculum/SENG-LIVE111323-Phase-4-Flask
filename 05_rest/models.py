@@ -27,7 +27,7 @@ class Coffee(db.Model, SerializerMixin):
     description = db.Column(db.String)
 
     # Relationship mapping the coffee to related orders
-    orders = db.relationship('Order', backref='coffee', cascade='all, delete-orphan')
+    orders = db.relationship('Order', back_populates='coffee', cascade='all, delete-orphan')
     #back_populates attribute is used to define a bidirectional 
     #relationship between two tables or models
 
@@ -36,8 +36,6 @@ class Coffee(db.Model, SerializerMixin):
 
     #delete-orphan: when an object is removed (deleted) from the parent's
     #collection, SQLAlchemy removes related objects.
-
-
 
     def __repr__(self):
         return f'<Coffee {self.id}, {self.name}, {self.price} >'
@@ -56,7 +54,7 @@ class Customer(db.Model, SerializerMixin):
 
     #Relationship mapping the customer to related orders
     orders=db.relationship(
-        'Order', backref='customer', cascade='all, delete-orphan'
+        'Order', back_populates='customer', cascade='all, delete-orphan'
     )
     #back_populates attribute is used to define a bidirectional relationship
     
@@ -80,12 +78,12 @@ class Order(db.Model, SerializerMixin):#intermidiary class / join table
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 
     # Relationship mapping the order to related coffee
-    # coffee = db.relationship('Coffee', back_populates='orders')
+    coffee = db.relationship('Coffee', back_populates='orders')
     #back_populates attribute is used to define a bidirectional relationship between two tables or models
     #back_populates:how changes made to one side of the relationship should be reflected on the other side.
 
     # Relationship mapping the order to related customer
-    # customer=db.relationship('Customer', back_populates='orders')
+    customer=db.relationship('Customer', back_populates='orders')
 
     def __repr__(self):
         return f'<Order {self.id}, {self.date}, {self.coffee.name}, {self.customer.name}>'

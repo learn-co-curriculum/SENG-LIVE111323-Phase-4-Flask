@@ -1,8 +1,8 @@
-"""add order class, added relationship
+"""empty message
 
-Revision ID: 4c83dd78eef0
-Revises: 06883ec67907
-Create Date: 2024-01-31 19:17:02.431244
+Revision ID: 0c62bf7debf4
+Revises: b6d6a5b4acbc
+Create Date: 2024-02-10 10:21:48.253705
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4c83dd78eef0'
-down_revision = '06883ec67907'
+revision = '0c62bf7debf4'
+down_revision = 'b6d6a5b4acbc'
 branch_labels = None
 depends_on = None
 
