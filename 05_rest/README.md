@@ -1,23 +1,13 @@
-## 005
+## 005 rest
 
-# GET /coffees
-# GET /coffees/:id
-# GET /orders
-# GET /orders/:id 
-# GET /customers
-# GET /customers/:id
+# GET /coffees 
+# POST /coffees
 
-# POST /coffees 
-# POST /orders
-# POST /customers
-
-# DELETE /coffees
+# GET /coffees/:id 
 # DELETE /coffees/:id 
-# DELETE /orders
-# DELETE /orders/:id 
-# DELETE /customers
-# DELETE /customers/:id
 
-# PATCH /coffees/:id 
-# PATCH /orders/:id 
+# GET /orders
+# POST /orders
+
 # PATCH /customers/:id
+# DELETE /customers/:id
