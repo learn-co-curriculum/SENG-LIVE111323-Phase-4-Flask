@@ -14,6 +14,4 @@
 
 ## 005 Flask-SQLAlchemy-RESTfulAPI
 
-## 006 Flask REST serializer
-
-## 007 Flask REST update / validation
+## 006 Auth
