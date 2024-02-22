@@ -4,7 +4,7 @@ from random import choice as rc
 from sqlalchemy import func
 
 from app import app 
-from models import Coffee, Customer, Order, db 
+from models import Coffee, Customer, Order, User, db 
 
 with app.app_context(): # create app context with app.app_context()
     Coffee.query.delete()
