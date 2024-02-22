@@ -192,8 +192,35 @@ class Customers(Resource):
 
 api.add_resource(Customers, '/customers/<int:id>')
 
+class Users(Resource):
+    def get(self):
+        all_users = [ users.to_dict() for users in User.query.all()]
+        return make_response(all_users, 200)
+
+api.add_resource(Users, '/users')
 
 
+class Signup(Resource):
+    def post(self): #define the POST / sign up method
+        new_user = User(
+            name = request.get_json()['name']
+            # _password_hash = request.get_json()['password']
+        )
+        new_user.password_hash = request.get_json()['password']
+        #use the setter method 
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        session['user_id'] = new_user.id # save the new user's id in the session 
+
+        response = make_response(
+            new_user.to_dict(),
+            201
+        )
+        return response
+
+api.add_resource(Signup, '/signup')
 
 # in terminal 
 # $flask db init

@@ -35,3 +35,7 @@
 * Security:
     -Hashing: fast for password verification, but this speed can make them vulnerable to certain attacks.
     -Encryption: complex and secure, harder to break without the decryption key.
+
+
+### secret key
+$python -c 'import os; print(os.urandom(16))'
