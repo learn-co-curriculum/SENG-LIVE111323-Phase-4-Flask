@@ -1,11 +1,24 @@
-from flask import request, make_response, session, jsonify
+from flask import request, make_response, session, jsonify, abort
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, api, db
 
 from models import Coffee, Order, Customer, User
+
 from datetime import datetime
+
+
+@app.before_request
+def check_if_logged_in():
+    open_access_list = [
+        'signup',
+        'login',
+        'check_session'
+    ]
+
+    if request.endpoint not in open_access_list and 'user_id' not in session:
+        abort(401)
 
 
 # create dynamic routes decorator
@@ -192,6 +205,7 @@ class Customers(Resource):
 
 api.add_resource(Customers, '/customers/<int:id>')
 
+
 class Users(Resource):
     def get(self):
         all_users = [ users.to_dict() for users in User.query.all()]
@@ -206,21 +220,84 @@ class Signup(Resource):
             name = request.get_json()['name']
             # _password_hash = request.get_json()['password']
         )
-        new_user.password_hash = request.get_json()['password']
-        #use the setter method 
 
-        db.session.add(new_user)
-        db.session.commit()
 
-        session['user_id'] = new_user.id # save the new user's id in the session 
+        try: 
+            new_user.password_hash = request.get_json()['password']
+            #use the setter method to set password
+            
+            db.session.add(new_user)
+            db.session.commit()
 
-        response = make_response(
-            new_user.to_dict(),
-            201
-        )
-        return response
+            session['user_id'] = new_user.id # save the new user's id in the session so the user is saved in the session
+
+            #import ipdb; ipdb.set_trace()
+            response = make_response(
+                new_user.to_dict(),
+                201
+            )
+            return response
+        except IntegrityError:
+            return {'error': '422 Unprocessable Entity'}, 422
 
 api.add_resource(Signup, '/signup')
+
+
+class Login(Resource):
+    def post(self):
+        #import ipdb; ipdb.set_trace()
+        # user = User.query.filter_by(name=request.get_json()['name']).one_or_none()
+        user = User.query.filter(User.name == request.get_json()['name']).first()
+        # import ipdb; ipdb.set_trace()        
+        if user and user.authenticate(request.get_json()['password']):
+            #.authenticate is the method we built in models.py
+            #check if used passed in pw is correct using the .authenticate method.
+            session['user_id'] = user.id  #if correct then create session to login
+            #import ipdb; ipdb.set_trace()
+            response = make_response(
+                user.to_dict(),
+                200
+            )
+            print(session)
+            return response
+        else:
+            return make_response({"ERROR":"Incorrect"}, 400)
+        
+api.add_resource(Login, '/login')
+
+
+# 6.1 Create a class Logout that inherits from Resource 
+class Logout(Resource):
+    # 6.2 Create a method called delete
+    def delete(self):
+    # 6.3 Clear the user id in session by setting the key to None
+        session['user_id'] = None
+        session.clear()
+    # 6.4 create a 204 no content response to send back to the client
+        response = make_response({}, 200)
+        return response
+api.add_resource(Logout, '/logout')
+
+class CheckSession(Resource):
+    def get(self):
+        #import ipdb; ipdb.set_trace()
+        # user = User.query.filter_by(id = session.get('user_id')).first()
+
+        user = User.query.filter(User.id == session['user_id']).first()
+
+
+        if user:
+            response = make_response(
+                user.to_dict(),
+                200
+            )
+            #import ipdb; ipdb.set_trace()
+            return response
+        else:
+            abort(401)
+api.add_resource(CheckSession, '/check_session')
+
+
 
 # in terminal 
 # $flask db init

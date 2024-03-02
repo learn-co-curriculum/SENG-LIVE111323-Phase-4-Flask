@@ -10,9 +10,9 @@ from flask_cors import CORS
 
 # create instances of Flask class
 app = Flask(__name__)#for Flask to know where to look for 
-# print(secret_k)
+print(secret_k)
 app.secret_key = secret_k
-# print(app.secret_key)
+print(app.secret_key)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
