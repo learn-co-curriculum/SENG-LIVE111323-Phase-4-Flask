@@ -1,4 +1,8 @@
-from flask import request, make_response, session, jsonify, abort
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+from flask import request, make_response, session, jsonify, abort, render_template
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
@@ -9,10 +13,11 @@ from models import Coffee, Order, Customer, User
 from datetime import datetime
 
 
-# create dynamic routes decorator
-@app.route("/") # route decorator 
-def index():
-    return '<h1> Hello World!  </h1>'
+@app.route('/')
+@app.route('/main')
+@app.route('/<int:id>')
+def index(id=0):
+    return render_template("index.html")
 
 @app.route('/the-most-expensive-coffee')
 def get_the_most_expensive_coffee():
