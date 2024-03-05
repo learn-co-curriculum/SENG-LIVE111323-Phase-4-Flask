@@ -1,0 +1,7 @@
+server/key.py
+Pipfile.lock
+
+client/node_modules
+client/package-lock.json
+
+server/.env
