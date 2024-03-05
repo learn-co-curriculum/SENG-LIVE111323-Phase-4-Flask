@@ -23,7 +23,7 @@ export default function Main() {
                 if(res.ok){
                     res.json()
                     .then(userfromsession => {
-                        console.log("user from session -- ", userfromsession)
+                        //console.log("user from session -- ", userfromsession)
                         setUser(userfromsession)
                     })
                 }else{
@@ -35,7 +35,6 @@ export default function Main() {
     useEffect(() => {
         console.log("current user: ", user)
     }, [user]) //to see the current user
-
 
     return (
         <>

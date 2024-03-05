@@ -5,14 +5,14 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-from key import secret_k
 from flask_cors import CORS
+import os
 
 # create instances of Flask class
 app = Flask(__name__)#for Flask to know where to look for 
+secret_k = os.getenv("secret_k")
 print(secret_k)
 app.secret_key = secret_k
-print(app.secret_key)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False

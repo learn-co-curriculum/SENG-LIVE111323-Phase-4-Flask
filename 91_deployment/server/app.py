@@ -9,18 +9,6 @@ from models import Coffee, Order, Customer, User
 from datetime import datetime
 
 
-@app.before_request
-def check_if_logged_in():
-    open_access_list = [
-        'signup',
-        'login',
-        'check_session'
-    ]
-
-    if request.endpoint not in open_access_list and 'user_id' not in session:
-        abort(401)
-
-
 # create dynamic routes decorator
 @app.route("/") # route decorator 
 def index():
